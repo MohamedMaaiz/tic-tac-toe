@@ -1,0 +1,19 @@
+body {
+    display: block;
+    background-color: black;
+}
+
+#gameboard {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 160px;
+}
+
+.board {
+    background-color: aquamarine;
+    border: solid 1px black;
+    display: block;
+    height: 50px;
+    width: 50px;
+}
