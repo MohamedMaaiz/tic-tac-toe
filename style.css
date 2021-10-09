@@ -10,10 +10,18 @@ body {
     width: 160px;
 }
 
+.player {
+    color: white;
+}
+
 .board {
     background-color: aquamarine;
     border: solid 1px black;
     display: block;
     height: 50px;
     width: 50px;
+}
+
+#winner {
+    color: white;
 }

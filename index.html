@@ -8,6 +8,23 @@
 </head>
 <body>
 
+    <div>
+        <!-- <button id="start" onclick="playerAssign()">Start</button> -->
+    </div>
+
+    <div id="player-info">
+        <form action="">
+            <input id="p1" type="text" value="Player1">
+            <input id="p2" type="text" value="Player2">
+            <button id="re-start" type="button">re-start</button>
+        </form>
+    </div>
+
+    <div class="player">
+        <P id="firstP"></P>
+        <P id="secondP"></P>
+    </div>
+
     <div id="gameboard">
         <div class="board" data-index="0"></div>
         <div class="board" data-index="1"></div>
@@ -19,6 +36,8 @@
         <div class="board" data-index="7"></div>
         <div class="board" data-index="8"></div>
     </div>
+
+    <div id="winner"></div>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
