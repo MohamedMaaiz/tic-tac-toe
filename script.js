@@ -35,7 +35,10 @@ const checkWin = (choice, playerChoices, name) => {
         const result = _filteredList[i].every(val => playerChoices.includes(val));
 
         if (result == true) {
-            return _winner(name)
+             _winner(name)
+            //reset on win
+            return Gameboard.clearAll()
+
         }
         // console.log(result);
     } 
@@ -75,6 +78,12 @@ const Gameboard = (() => {
         nowPlay == player2 ? nowPlay = player1 : nowPlay = player2
     }
 
+    const _checkBox = (target) => {
+        if(target.textContent !== ''){
+            return false
+        }
+    }
+
     const Rstart = document.getElementById('re-start')
     Rstart.onclick = () => clearAll()
     
@@ -86,6 +95,7 @@ const Gameboard = (() => {
 
     const addMark = (target) => {
         let boxID = target.getAttribute('data-index')
+        if (_checkBox(target) == false) return 
         // bord[boxID] = nowPlay.getMark()
         target.textContent = nowPlay.getMark()
         nowPlay.pushChoice(boxID)
@@ -95,6 +105,6 @@ const Gameboard = (() => {
         // console.log(player2._playerChoices)
     }
     
-    return {addMark}
+    return {addMark, clearAll}
 })()
 

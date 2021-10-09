@@ -1,27 +1,35 @@
 body {
     display: block;
-    background-color: black;
+    /* color: white; */
+    /* background-color: black; */
 }
 
 #gameboard {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 160px;
+    width: 336px;
+    height: 336px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 .player {
-    color: white;
 }
 
 .board {
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     border: solid 1px black;
-    display: block;
-    height: 50px;
-    width: 50px;
+    display: flex;
+    height: 110px;
+    width: 110px;
+    justify-content: center;
+    align-items: center;
 }
 
 #winner {
-    color: white;
 }
