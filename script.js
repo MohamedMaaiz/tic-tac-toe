@@ -3,11 +3,11 @@
 const Players = (name, mark) => {
     const getName = () => name
     const getMark = () => mark
-    let _playerChoices = []    
+    let _playerChoices = []   
 
     const pushChoice = (choice) => {
         _playerChoices.push(parseInt(choice))
-        checkWin(parseInt(choice), _playerChoices, name)
+        checkWin().check(parseInt(choice), _playerChoices, name)
     }
 
     const clear = () => {
@@ -17,31 +17,38 @@ const Players = (name, mark) => {
     return {getName, getMark, pushChoice, clear,_playerChoices}
 };
 
-const checkWin = (choice, playerChoices, name) => {
+const checkWin = () => {
     
     const _winingChoice = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
         [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
     ];
-    
-    let _filteredList = _winingChoice.filter(choices => choices.includes(choice))
 
     const _winner = (name) => {
         const winner = document.getElementById('winner')
-        winner.textContent = name
+        const playerWin1 = document.querySelector('[data-win-p1]')
+        const playerWin2 = document.querySelector('[data-win-p2]')
+        winner.textContent = `Winner: ${name}`
+
+        name === p1.value ? playerWin1.textContent = Number(playerWin1.textContent) + 1 : playerWin2.textContent = Number(playerWin2.textContent) + 1
     }
 
-    for (let i = 0; i < _filteredList.length; i++) {
-        const result = _filteredList[i].every(val => playerChoices.includes(val));
+    const check = (choice, playerChoices, name) => {
 
-        if (result == true) {
-             _winner(name)
-            //reset on win
-            return Gameboard.clearAll()
+        let _filteredList = _winingChoice.filter(choices => choices.includes(choice))
 
-        }
-        // console.log(result);
-    } 
+        for (let i = 0; i < _filteredList.length; i++) {
+            const result = _filteredList[i].every(val => playerChoices.includes(val));
+    
+            if (result == true) {
+                 _winner(name)
+                return Gameboard.clearAll()
+            }
+            // console.log(result);
+        } 
+    }
+
+    return {check}
 }
 
 
@@ -84,20 +91,34 @@ const Gameboard = (() => {
         }
     }
 
-    const Rstart = document.getElementById('re-start')
-    Rstart.onclick = () => clearAll()
+    const _Nstart = document.getElementById('new-start')
+    _Nstart.onclick = () => {
+        clearAll()
+        document.querySelector('[data-win-p1]').textContent = 0
+        document.querySelector('[data-win-p2]').textContent = 0
+    }
+    
+    const _Rstart = document.getElementById('re-start')
+    _Rstart.onclick = () => clearAll()
     
     const clearAll = () => {
         player1.clear()
         player2.clear()
-        _board.forEach(box => box.textContent = '')
+        _board.forEach(box => {
+            box.textContent = ''
+            box.classList.remove('fill')
+        })
     }
+
+    //add edit name function
+    //change name on submit
 
     const addMark = (target) => {
         let boxID = target.getAttribute('data-index')
         if (_checkBox(target) == false) return 
         // bord[boxID] = nowPlay.getMark()
         target.textContent = nowPlay.getMark()
+        target.classList.add('fill')
         nowPlay.pushChoice(boxID)
         _currentPlayer()
 
