@@ -53,23 +53,25 @@ const checkWin = () => {
 
 
 const playerAssign = () =>{
-    const p1 = document.getElementById('p1').value
-    const p2 = document.getElementById('p2').value
-    const start = document.getElementById('start')
+    let p1 = document.getElementById('p1').value
+    let p2 = document.getElementById('p2').value
+    let p1Mark = document.getElementById('p1Mark').value
+    let p2Mark = document.getElementById('p2Mark').value
     
     const p1display = document.getElementById('firstP')
     const p2display = document.getElementById('secondP')
     p1display.textContent = p1
     p2display.textContent = p2
-    
-    // start.onclick = () => Gameboard(player1,player2)
-    return{p1, p2}
+
+    //add player mark to display if player name hase changed
+
+    return{p1, p2, p1Mark, p2Mark}
 }
 
 
 const Gameboard = (() => {
-    const player1 = Players(playerAssign().p1, 'X')
-    const player2 = Players(playerAssign().p2, 'O')
+    let player1 = Players(playerAssign().p1, playerAssign().p1Mark)
+    let player2 = Players(playerAssign().p2, playerAssign().p2Mark)
 
     // let bord = ['','','','','','', '','','',]
 
@@ -110,8 +112,20 @@ const Gameboard = (() => {
         })
     }
 
-    //add edit name function
-    //change name on submit
+    const editBTN = document.getElementById('edit-name')
+    const pInfo = document.getElementById('player-info')
+    editBTN.onclick = () => {
+        pInfo.style.display = 'flex'
+    }
+
+    const submitBTN = document.getElementById('submit')
+    submitBTN.onclick = () => {
+        player1 = Players(playerAssign().p1, playerAssign().p1Mark)
+        player2 = Players(playerAssign().p2, playerAssign().p2Mark)
+        pInfo.style.display = 'none'
+        _currentPlayer()
+        clearAll()
+    }
 
     const addMark = (target) => {
         let boxID = target.getAttribute('data-index')

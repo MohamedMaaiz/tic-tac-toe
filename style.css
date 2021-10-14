@@ -76,8 +76,22 @@ h1 {
 }
 
 #player-info {
-    /* display: none; */
+    background-color: cadetblue;
+    display: none;
     position: fixed;
+    flex-direction: column;
+    gap: 30px;
+    width: 50%;
+}
+
+#player-info form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.p1div, .p2div {
+    display: flex;
+    flex-direction: column;
 }
 
 .player {
