@@ -29,8 +29,28 @@ const checkWin = () => {
         const playerWin1 = document.querySelector('[data-win-p1]')
         const playerWin2 = document.querySelector('[data-win-p2]')
         winner.textContent = `Winner: ${name}`
+        winner.classList.add('win')
+        setTimeout(function(){
+            winner.style.transition = '1s'
+            winner.style.opacity = '0%'
+        },1500)
+
+        setTimeout(function(){
+            winner.classList.remove('win')
+            winner.textContent = ''
+        },2500)
+        //do the wining animation for second win too
 
         name === p1.value ? playerWin1.textContent = Number(playerWin1.textContent) + 1 : playerWin2.textContent = Number(playerWin2.textContent) + 1
+    }
+
+    const _winLine = (winArray) => {
+        winArray.forEach(e => {
+            document.querySelector(`[data-index="${e}"]`).classList.add('win-line')
+        });
+        setTimeout(function(){
+            document.querySelectorAll('.win-line').forEach(e => {e.classList.remove('win-line')})
+        }, 1000);
     }
 
     const check = (choice, playerChoices, name) => {
@@ -39,9 +59,12 @@ const checkWin = () => {
 
         for (let i = 0; i < _filteredList.length; i++) {
             const result = _filteredList[i].every(val => playerChoices.includes(val));
-    
+            
+            //display the last mark before removing??
             if (result == true) {
-                 _winner(name)
+                _winLine(_filteredList[i])
+                //display winners name above table??
+                _winner(name)
                 return Gameboard.clearAll()
             }
             // console.log(result);
@@ -55,23 +78,19 @@ const checkWin = () => {
 const playerAssign = () =>{
     let p1 = document.getElementById('p1').value
     let p2 = document.getElementById('p2').value
-    let p1Mark = document.getElementById('p1Mark').value
-    let p2Mark = document.getElementById('p2Mark').value
     
     const p1display = document.getElementById('firstP')
     const p2display = document.getElementById('secondP')
     p1display.textContent = p1
     p2display.textContent = p2
 
-    //add player mark to display if player name hase changed
-
-    return{p1, p2, p1Mark, p2Mark}
+    return{p1, p2}
 }
 
 
 const Gameboard = (() => {
-    let player1 = Players(playerAssign().p1, playerAssign().p1Mark)
-    let player2 = Players(playerAssign().p2, playerAssign().p2Mark)
+    let player1 = Players(playerAssign().p1, 'X')
+    let player2 = Players(playerAssign().p2, 'O')
 
     // let bord = ['','','','','','', '','','',]
 
@@ -82,9 +101,20 @@ const Gameboard = (() => {
     })
 
     let nowPlay = player1
+    const pDiv = document.querySelectorAll('.player')
 
+    //change display to see the current player??
     const _currentPlayer = () => {
-        nowPlay == player2 ? nowPlay = player1 : nowPlay = player2
+        // nowPlay == player2 ? nowPlay = player1 : nowPlay = player2
+        if (nowPlay == player2) {
+            nowPlay = player1
+            pDiv[0].classList.add('current')
+            pDiv[1].classList.remove('current')
+        } else {
+            nowPlay = player2
+            pDiv[1].classList.add('current')
+            pDiv[0].classList.remove('current')
+        }
     }
 
     const _checkBox = (target) => {
@@ -112,17 +142,29 @@ const Gameboard = (() => {
         })
     }
 
+    const _blur = document.getElementById('blur')
+    _blur.onclick = () => blurMode.off()
+
+    const blurMode = {
+        off: function(){
+            _blur.style.display = 'none'
+            pInfo.style.display = 'none'
+        },
+        on: function(){
+            pInfo.style.display = 'flex'
+            _blur.style.display = 'block'
+        }
+    }
+
     const editBTN = document.getElementById('edit-name')
     const pInfo = document.getElementById('player-info')
-    editBTN.onclick = () => {
-        pInfo.style.display = 'flex'
-    }
+    editBTN.onclick = () => blurMode.on()
 
     const submitBTN = document.getElementById('submit')
     submitBTN.onclick = () => {
-        player1 = Players(playerAssign().p1, playerAssign().p1Mark)
-        player2 = Players(playerAssign().p2, playerAssign().p2Mark)
-        pInfo.style.display = 'none'
+        player1 = Players(playerAssign().p1, 'X')
+        player2 = Players(playerAssign().p2, 'O')
+        blurMode.off()
         _currentPlayer()
         clearAll()
     }

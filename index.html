@@ -22,22 +22,17 @@
             <div class="p1div">
                 <label for="p1">Player Name</label>
                 <input id="p1" name="p1" type="text" value="X">
-                <label for="p1Mark">Player Mark</label>
-                <input id="p1Mark" name="p1Mark" type="text" value="X">
             </div>
             <div class="p2div">
                 <label for="p2">Player Name</label>
                 <input id="p2" name="p2" type="text" value="O">
-                <label for="p2Mark">Player Mark</label>
-                <input id="p2Mark" name="p2Mark" type="text" value="O">
             </div>
         </form>
         <input id="submit" type="button" value="submit">
     </div>
 
-    <div class="player">
+    <div class="player current">
         <P id="firstP"></P>
-        <P id="firstPMark"></P>
         <p >Wins: <span data-win-p1>0</span></p>
     </div>
 
@@ -57,11 +52,12 @@
 
     <div class="player">
         <P id="secondP"></P>
-        <P id="secondPMark"></P>
         <p >Wins: <span data-win-p2>0</span></p>
     </div>
 
     <div id="winner"></div>
+
+    <div id="blur"></div>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
