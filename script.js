@@ -18,6 +18,8 @@ const Players = (name, mark) => {
 };
 
 const checkWin = () => {
+
+    const winner = document.getElementById('winner')
     
     const _winingChoice = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
@@ -25,7 +27,7 @@ const checkWin = () => {
     ];
 
     const _winner = (name) => {
-        const winner = document.getElementById('winner')
+        // const winner = document.getElementById('winner')
         const playerWin1 = document.querySelector('[data-win-p1]')
         const playerWin2 = document.querySelector('[data-win-p2]')
         winner.textContent = `Winner: ${name}`
@@ -38,34 +40,37 @@ const checkWin = () => {
         setTimeout(function(){
             winner.classList.remove('win')
             winner.textContent = ''
+            winner.style.opacity = '100%'
         },2500)
-        //do the wining animation for second win too
-
         name === p1.value ? playerWin1.textContent = Number(playerWin1.textContent) + 1 : playerWin2.textContent = Number(playerWin2.textContent) + 1
     }
 
     const _winLine = (winArray) => {
-        winArray.forEach(e => {
-            document.querySelector(`[data-index="${e}"]`).classList.add('win-line')
-        });
+        setTimeout(function(){
+            winArray.forEach(e => {
+                document.querySelector(`[data-index="${e}"]`).classList.add('win-line')
+            });
+        }, 5);
         setTimeout(function(){
             document.querySelectorAll('.win-line').forEach(e => {e.classList.remove('win-line')})
-        }, 1000);
+        }, 1500);
     }
-
+    
     const check = (choice, playerChoices, name) => {
 
         let _filteredList = _winingChoice.filter(choices => choices.includes(choice))
-
+        
         for (let i = 0; i < _filteredList.length; i++) {
             const result = _filteredList[i].every(val => playerChoices.includes(val));
             
-            //display the last mark before removing??
+            //display the last mark before removing
             if (result == true) {
                 _winLine(_filteredList[i])
-                //display winners name above table??
                 _winner(name)
-                return Gameboard.clearAll()
+                return setTimeout(function(){
+                    Gameboard.clearAll()
+                }, 1500);
+                
             }
             // console.log(result);
         } 
@@ -88,6 +93,7 @@ const playerAssign = () =>{
 }
 
 
+
 const Gameboard = (() => {
     let player1 = Players(playerAssign().p1, 'X')
     let player2 = Players(playerAssign().p2, 'O')
@@ -100,28 +106,15 @@ const Gameboard = (() => {
         box.addEventListener('click', () => {addMark(box)});
     })
 
-    let nowPlay = player1
-    const pDiv = document.querySelectorAll('.player')
-
-    //change display to see the current player??
-    const _currentPlayer = () => {
-        // nowPlay == player2 ? nowPlay = player1 : nowPlay = player2
-        if (nowPlay == player2) {
-            nowPlay = player1
-            pDiv[0].classList.add('current')
-            pDiv[1].classList.remove('current')
-        } else {
-            nowPlay = player2
-            pDiv[1].classList.add('current')
-            pDiv[0].classList.remove('current')
-        }
-    }
-
     const _checkBox = (target) => {
         if(target.textContent !== ''){
             return false
         }
     }
+
+    let aiMode = false
+    const vs = document.getElementById('vs')
+    vs.onclick = () => aiMode = true
 
     const _Nstart = document.getElementById('new-start')
     _Nstart.onclick = () => {
@@ -140,6 +133,7 @@ const Gameboard = (() => {
             box.textContent = ''
             box.classList.remove('fill')
         })
+        drawCount = 0
     }
 
     const _blur = document.getElementById('blur')
@@ -156,6 +150,23 @@ const Gameboard = (() => {
         }
     }
 
+    let drawCount = 0
+    let _draw = () => {
+        winner.textContent = `It's a Draw`
+        winner.classList.add('win')
+        setTimeout(function(){
+            winner.style.transition = '1s'
+            winner.style.opacity = '0%'
+        },1500)
+        
+        setTimeout(function(){
+            winner.classList.remove('win')
+            winner.textContent = ''
+            winner.style.opacity = '100%'
+        },2500)
+        return Gameboard.clearAll()
+    }
+
     const editBTN = document.getElementById('edit-name')
     const pInfo = document.getElementById('player-info')
     editBTN.onclick = () => blurMode.on()
@@ -169,7 +180,28 @@ const Gameboard = (() => {
         clearAll()
     }
 
+    const pDiv = document.querySelectorAll('.player')
+    let nowPlay = player1
+
+    const _currentPlayer = () => {
+        if (nowPlay == player2) {
+            nowPlay = player1
+            pDiv[0].classList.add('current')
+            pDiv[1].classList.remove('current')
+            if (aiMode === true){
+                compPlay().logic()
+            }
+        } else {
+            nowPlay = player2
+            pDiv[1].classList.add('current')
+            pDiv[0].classList.remove('current')
+        }
+    }
+
     const addMark = (target) => {
+        // console.log(target)
+        drawCount++
+        if (drawCount == 9) return _draw()
         let boxID = target.getAttribute('data-index')
         if (_checkBox(target) == false) return 
         // bord[boxID] = nowPlay.getMark()
@@ -185,3 +217,16 @@ const Gameboard = (() => {
     return {addMark, clearAll}
 })()
 
+const compPlay = () => {
+    const _board = document.querySelectorAll('.board')
+    const _boardArr = Array.from(_board)
+    let _filteredboard = _boardArr.filter(box => box.textContent == '')
+
+    console.log()
+    
+    const logic = () => {
+        //select a randome from _filterdboard and call addMark with that choice
+    }
+
+    return {logic}
+}
