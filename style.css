@@ -132,7 +132,6 @@ h1 {
     position: fixed;
     font-size: 20px;
     pointer-events: none;
-    opacity: 100%;
 }
 
 .win {

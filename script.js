@@ -7,7 +7,8 @@ const Players = (name, mark) => {
 
     const pushChoice = (choice) => {
         _playerChoices.push(parseInt(choice))
-        checkWin().check(parseInt(choice), _playerChoices, name)
+        let check = checkWin().check(parseInt(choice), _playerChoices, name)
+        return check ? true : false
     }
 
     const clear = () => {
@@ -19,6 +20,8 @@ const Players = (name, mark) => {
 
 const checkWin = () => {
 
+    
+
     const winner = document.getElementById('winner')
     
     const _winingChoice = [
@@ -27,7 +30,6 @@ const checkWin = () => {
     ];
 
     const _winner = (name) => {
-        // const winner = document.getElementById('winner')
         const playerWin1 = document.querySelector('[data-win-p1]')
         const playerWin2 = document.querySelector('[data-win-p2]')
         winner.textContent = `Winner: ${name}`
@@ -55,7 +57,7 @@ const checkWin = () => {
             document.querySelectorAll('.win-line').forEach(e => {e.classList.remove('win-line')})
         }, 1500);
     }
-    
+
     const check = (choice, playerChoices, name) => {
 
         let _filteredList = _winingChoice.filter(choices => choices.includes(choice))
@@ -63,19 +65,16 @@ const checkWin = () => {
         for (let i = 0; i < _filteredList.length; i++) {
             const result = _filteredList[i].every(val => playerChoices.includes(val));
             
-            //display the last mark before removing
             if (result == true) {
                 _winLine(_filteredList[i])
                 _winner(name)
-                return setTimeout(function(){
+                setTimeout(function(){
                     Gameboard.clearAll()
-                }, 1500);
-                
+                }, 1500) 
+                return true
             }
-            // console.log(result);
         } 
     }
-
     return {check}
 }
 
@@ -114,7 +113,13 @@ const Gameboard = (() => {
 
     let aiMode = false
     const vs = document.getElementById('vs')
-    vs.onclick = () => aiMode = true
+    vs.onclick = () => {
+        aiMode = true
+        clearAll()
+        if (nowPlay == player2) {
+            compPlay().logic()
+        }
+    }
 
     const _Nstart = document.getElementById('new-start')
     _Nstart.onclick = () => {
@@ -188,26 +193,31 @@ const Gameboard = (() => {
             nowPlay = player1
             pDiv[0].classList.add('current')
             pDiv[1].classList.remove('current')
-            if (aiMode === true){
-                compPlay().logic()
-            }
         } else {
             nowPlay = player2
             pDiv[1].classList.add('current')
             pDiv[0].classList.remove('current')
+            if (aiMode === true){
+                compPlay().logic()
+            }
         }
     }
 
     const addMark = (target) => {
-        // console.log(target)
         drawCount++
-        if (drawCount == 9) return _draw()
         let boxID = target.getAttribute('data-index')
         if (_checkBox(target) == false) return 
         // bord[boxID] = nowPlay.getMark()
         target.textContent = nowPlay.getMark()
         target.classList.add('fill')
-        nowPlay.pushChoice(boxID)
+        const check = nowPlay.pushChoice(boxID)
+        if (nowPlay == player2 && aiMode && check) {
+            setTimeout(function(){
+                compPlay().logic()
+            },2000)
+        }
+        if(check) return false //stop ai when win
+        if (drawCount == 9 && check == false) return _draw()
         _currentPlayer()
 
         // console.log(player1._playerChoices)
@@ -217,16 +227,21 @@ const Gameboard = (() => {
     return {addMark, clearAll}
 })()
 
+
+
+
+
 const compPlay = () => {
     const _board = document.querySelectorAll('.board')
     const _boardArr = Array.from(_board)
     let _filteredboard = _boardArr.filter(box => box.textContent == '')
-
-    console.log()
     
     const logic = () => {
-        //select a randome from _filterdboard and call addMark with that choice
+        const random = _filteredboard[Math.floor(Math.random() * _filteredboard.length)];
+        Gameboard.addMark(random)
     }
+    
+    
 
     return {logic}
 }
