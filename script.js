@@ -19,9 +19,6 @@ const Players = (name, mark) => {
 };
 
 const checkWin = () => {
-
-    
-
     const winner = document.getElementById('winner')
     
     const _winingChoice = [
@@ -111,7 +108,8 @@ const Gameboard = (() => {
         }
     }
 
-    let aiMode = false
+    // let aiMode = false
+    let aiMode = true
     const vs = document.getElementById('vs')
     vs.onclick = () => {
         aiMode = true
@@ -237,11 +235,10 @@ const compPlay = () => {
     let _filteredboard = _boardArr.filter(box => box.textContent == '')
     
     const logic = () => {
-        const random = _filteredboard[Math.floor(Math.random() * _filteredboard.length)];
+        const random = _filteredboard[Math.floor(Math.random() * _filteredboard.length)]
         Gameboard.addMark(random)
     }
-    
-    
+
 
     return {logic}
 }
