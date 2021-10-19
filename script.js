@@ -19,9 +19,6 @@ const Players = (name, mark) => {
 };
 
 const checkWin = () => {
-
-    
-
     const winner = document.getElementById('winner')
     
     const _winingChoice = [
@@ -111,7 +108,8 @@ const Gameboard = (() => {
         }
     }
 
-    let aiMode = false
+    // let aiMode = false
+    let aiMode = true
     const vs = document.getElementById('vs')
     vs.onclick = () => {
         aiMode = true
@@ -232,16 +230,119 @@ const Gameboard = (() => {
 
 
 const compPlay = () => {
-    const _board = document.querySelectorAll('.board')
-    const _boardArr = Array.from(_board)
-    let _filteredboard = _boardArr.filter(box => box.textContent == '')
+    // const _board = document.querySelectorAll('.board')
+    // const _boardArr = Array.from(_board)
+    // let _filteredboard = _boardArr.filter(box => box.textContent == '')
     
-    const logic = () => {
-        const random = _filteredboard[Math.floor(Math.random() * _filteredboard.length)];
-        Gameboard.addMark(random)
+    // const logic = () => {
+    //     // const random = _filteredboard[Math.floor(Math.random() * _filteredboard.length)]
+    //     // Gameboard.addMark(random)
+    // }
+    const bestMove = () => {
+        const _board = document.querySelectorAll('.board')
+        const _boardArr = Array.from(_board)
+        let _filteredboard = _boardArr.filter(box => box.textContent == '')
+
+        let bestScroe = -Infinity
+        let move;
+        for (let i = 0; i < _filteredboard.length; i++) {
+            let score = miniMax(_boardArr, 0, false)
+            console.log(score)
+            if (score > bestScroe) {
+                bestScroe = score
+                move = _filteredboard[i]
+                console.log('in for')
+            }
+        }
+        console.log('move= ' + move)
+        // Gameboard.addMark(move)
     }
     
+
+    const logic = () => {
+        // let move = bestMove()
+        // console.log(move)
+        // Gameboard.addMark(move)
+        bestMove()
+    }
+
+    let scores = {
+        X: 1,
+        O: -1,
+        tie: 0
+    }
+
+    function miniMax(board, depth, isMaxing) {
+        // console.log(board)
+        let result
+        isMaxing ? result = checkMiniMaxWin('O') : result = checkMiniMaxWin('X')
+        if (result == true) {
+            console.log(result)
+            console.log('end this')
+            return scores[result]
+        }
+
+        if (isMaxing) {
+            let _filteredboard = Array.from(board).filter(box => box.textContent == '')
+            let bestScroe = -Infinity
+            for (let i = 0; i< _filteredboard.length;i++) {
+                let score = miniMax(_filteredboard[i], 0, false)
+                bestScroe = max(score, bestScroe)
+            }
+            return bestScroe
+        } else {
+            let _filteredboard = board.filter(box => box.textContent == '')
+            let bestScroe = Infinity
+            for (let i = 0; i< _filteredboard.length;i++) {
+                let score = miniMax(_filteredboard[i], +1, true)
+                
+                if (score < bestScroe) {
+                    bestScroe = score
+                }
+            }
+            console.log(bestScroe)
+            return bestScroe
+        }
+    }
+
+
+    function checkMiniMaxWin(xo) {
+        const _winingChoice = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
+            [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
+        ];
+
+        //collecting all from board 
+        const _board = document.querySelectorAll('.board')
+        let _boardArr = []
+        _board.forEach(e => {
+            _boardArr.push(e.textContent)
+        });
+
+        //collecting all the same marks to check win
+        let indexList = []; 
+        pushToCheck(xo)
+        function pushToCheck(mark) {
+            for (let i=0; i < _boardArr.length; i++ ){
+                if (_boardArr[i] == mark){
+                    indexList.push( i );
+                }
+            }
+        }
+
+        console.log(xo,indexList)
     
+        for (let i = 0; i < _winingChoice.length; i++) {
+            const result = _winingChoice[i].every(val => indexList.includes(val));
+            
+            if (result == true) {
+                console.log(result)
+                return result
+            }
+            return result
+        } 
+    }
+
 
     return {logic}
 }
