@@ -225,20 +225,20 @@ const Gameboard = (() => {
     return {addMark, clearAll}
 })()
 
-
-
-
-
 const compPlay = () => {
+    const gameboard = document.getElementById('gameboard')
     const _board = document.querySelectorAll('.board')
     const _boardArr = Array.from(_board)
     let _filteredboard = _boardArr.filter(box => box.textContent == '')
     
     const logic = () => {
+        gameboard.style.pointerEvents = 'none'
         const random = _filteredboard[Math.floor(Math.random() * _filteredboard.length)]
-        Gameboard.addMark(random)
+        setTimeout(function(){
+            Gameboard.addMark(random)
+            gameboard.style.pointerEvents = 'auto'
+        },500)
     }
-
 
     return {logic}
 }
