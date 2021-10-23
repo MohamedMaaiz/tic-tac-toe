@@ -9,6 +9,7 @@
     --font-color-winline: #c0c2dd;
     --font-shadow-winner: 0px 0px 5px #ffffff;
     --box-shadow: 2px 4px 5px 0px #b2b2b299, 0px -1px 7px 2px #f4f4f4;
+    --box-shadow-revers: 0px -1px 7px 2px #b2b2b299,2px 4px 5px 0px #f4f4f4;
     --box-shadow-current: 5px 3px 13px 2px #58585899, 0px 0px 2px 0px #f4f4f4;
     --border-color: #363636;
     --font-head: 'Gemunu Libre', sans-serif;
@@ -24,6 +25,7 @@ html[data-theme='light'] {
     --font-color-winline: #c0c2dd;
     --font-shadow-winner: 0px 0px 5px #ffffff;
     --box-shadow: 2px 4px 5px 0px #b2b2b299,0px -1px 7px 2px #f4f4f4;
+    --box-shadow-revers: 0px -1px 7px 2px #b2b2b299,2px 4px 5px 0px #f4f4f4;
     --box-shadow-current: 5px 3px 13px 2px #58585899, 0px 0px 2px 0px #f4f4f4;
     --border-color: #363636;
 }
@@ -37,6 +39,7 @@ html[data-theme='dark'] {
     --font-color-winline: #424453;
     --font-shadow-winner: 0px 0px 5px #000000;
     --box-shadow: 2px 4px 5px 0px #141414,0px -1px 7px 2px #373737b0;
+    --box-shadow-revers: 0px -1px 7px 2px #141414,2px 4px 5px 0px #373737b0;
     --box-shadow-current: 5px 3px 13px 5px #00000099, 0px 0px 2px 0px #454545;
     --border-color: #e2e2e2;
 }
@@ -237,6 +240,10 @@ form div {
     border-radius: 8px;
 }
 
+.first {
+    display: none;
+}
+
 .current {
     box-shadow: var(--box-shadow-current);
 }
@@ -259,7 +266,6 @@ form div {
     color: var(--font-color-winner);
     pointer-events: none;
     text-shadow: var(--font-shadow-winner);
-    
     z-index: 1;
 }
 
@@ -268,4 +274,145 @@ form div {
     transform: scale(5);
 }
 
-/* mobile version */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 20px;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+
+@media only screen and (max-width: 600px)  {
+    body {
+        flex-direction: column-reverse;
+        justify-content: space-between;
+    }
+
+    #setting {
+        display: none;
+        background-color: var(--background-color);
+        box-shadow: var(--box-shadow);
+        height: 60%;
+        width: 300px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 1;
+    }
+
+    h1 {
+        top: 0;
+        margin: 10px;
+        padding: 0;
+
+    }
+
+    #setting div {
+        padding-right: 0;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    button {
+        height: 50px;
+        width: 150px;
+        font-size: 30px;
+    }
+
+    button:last-child {
+        width: 50px;
+    }
+
+    button:hover {
+        background-color: var(--background-color);
+    }
+
+    footer, a{
+        position: relative;
+        order: 1;
+        font-size: 22px;
+        text-decoration: none;
+        margin: 12px;
+    }
+
+    .mid {
+        width: 100vw;
+    }
+
+    #gameboard {
+        width: 90%;
+    }
+
+    .player {
+        flex: 0;
+        width: 80%;
+    }
+
+    .first {
+        position: absolute;
+        display: block;
+        width: 80%;
+        height: 13%;
+    }
+
+    .second  {
+        transform: rotate(180deg);
+        box-shadow: var(--box-shadow-revers);
+    }
+
+    .current {
+        box-shadow: var(--box-shadow-current);
+    }
+
+    .player p {
+        margin: 5px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    #gameboard {
+        width: 80%;
+    }
+
+    #setting {
+        width: 90vw;
+        height: 50%;
+        gap: 20px;
+        justify-content: flex-start;
+    }
+
+    #setting div {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .first {
+        height: 17%;
+    }
+
+    button {
+        height: 35px;
+        width: 130px;
+    }
+
+    footer{
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        left: auto;
+    }
+}
+
+/* adjest winner, draw text and form for mobile */
+/* start with menue for mobile */

@@ -87,7 +87,7 @@ const playerAssign = () =>{
     p1display.textContent = p1
     p2display.textContent = p2
 
-    return{p1, p2}
+    return{p1, p2, p1display, p2display}
 }
 
 
@@ -160,10 +160,16 @@ const Gameboard = (() => {
         if (currentTheme === "light") {
             targetTheme = "dark";
         }
-    
         document.documentElement.setAttribute('data-theme', targetTheme)
         localStorage.setItem('theme', targetTheme);
     };
+
+    const setting = document.getElementById('setting')
+    const menu = document.querySelector('.first')
+    menu.onclick = () => {
+        setting.style.display = 'flex'
+        blurMode.on()
+    }
 
     const blur = document.getElementById('blur')
     blur.onclick = () => blurMode.off()
@@ -172,6 +178,7 @@ const Gameboard = (() => {
         off: function(){
             blur.style.display = 'none'
             pInfo.style.display = 'none'
+            if (screen.width < 600) setting.style.display = 'none'
         },
         on: function(){
             blur.style.display = 'block'
