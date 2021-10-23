@@ -120,6 +120,7 @@ const Gameboard = (() => {
         } else {
             aiMode = true
             vs.textContent = 'Vs Comp'
+            _clearScore()
         }
         clearAll()
         if (nowPlay == player2) {
@@ -127,8 +128,10 @@ const Gameboard = (() => {
         }
     }
 
-    const _Nstart = document.getElementById('new-start')
-    _Nstart.onclick = () => {
+    const Nstart = document.getElementById('new-start')
+    Nstart.onclick = () => _clearScore()
+
+    const _clearScore = () => {
         clearAll()
         document.querySelector('[data-win-p1]').textContent = 0
         document.querySelector('[data-win-p2]').textContent = 0
@@ -147,16 +150,31 @@ const Gameboard = (() => {
         drawCount = 0
     }
 
-    const _blur = document.getElementById('blur')
-    _blur.onclick = () => blurMode.off()
+    const theme = document.getElementById("theme");
+    let storedTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme)
+    theme.onclick = function() {
+        let currentTheme = document.documentElement.getAttribute("data-theme");
+        let targetTheme = "light";
+    
+        if (currentTheme === "light") {
+            targetTheme = "dark";
+        }
+    
+        document.documentElement.setAttribute('data-theme', targetTheme)
+        localStorage.setItem('theme', targetTheme);
+    };
+
+    const blur = document.getElementById('blur')
+    blur.onclick = () => blurMode.off()
 
     const blurMode = {
         off: function(){
-            _blur.style.display = 'none'
+            blur.style.display = 'none'
             pInfo.style.display = 'none'
         },
         on: function(){
-            _blur.style.display = 'block'
+            blur.style.display = 'block'
         }
     }
 
