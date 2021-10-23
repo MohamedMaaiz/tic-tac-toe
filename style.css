@@ -2,7 +2,11 @@
 
 :root {
     --background-color: #e0e5ec;
+    --background-color-hover: #c5c9cf;
+    --background-color-active: #888b8f;
     --font-color: #484848;
+    --font-color-winner: #4a40d4;
+    --font-color-winline: #c0c2dd;
     --box-shadow: 2px 4px 5px 0px #b2b2b299,0px -1px 7px 2px #f4f4f4;
     --border-color: #363636;
     --font-head: 'Gemunu Libre', sans-serif;
@@ -57,6 +61,16 @@ button {
     border: none;
     height: 30px;
     width: 100px;
+    transition: .5s 0s;
+}
+
+button:hover {
+    background-color: var(--background-color-hover);
+}
+
+button:active {
+    background-color: var(--background-color-active);
+    transition: 0s;
 }
 
 h1 {
@@ -122,7 +136,7 @@ h1 {
 }
 
 .win-line {
-    background-color: darkblue;
+    background-color: var(--font-color-winline);
     transition: .5s;
 }
 
@@ -178,8 +192,12 @@ h1 {
     /* background-color: rgb(212, 212, 212); */
     display: block;
     position: fixed;
+    font-family: var(--font-display);
     font-size: 20px;
+    font-weight: bolder;
+    color: var(--font-color-winner);
     pointer-events: none;
+    z-index: 1;
 }
 
 .win {

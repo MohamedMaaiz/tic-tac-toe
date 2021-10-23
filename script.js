@@ -31,11 +31,13 @@ const checkWin = () => {
         const playerWin2 = document.querySelector('[data-win-p2]')
         winner.textContent = `Winner: ${name}`
         winner.classList.add('win')
+        Gameboard.blurMode.on()
         setTimeout(function(){
             winner.style.transition = '1s'
             winner.style.opacity = '0%'
+            Gameboard.blurMode.off()
         },1500)
-
+        
         setTimeout(function(){
             winner.classList.remove('win')
             winner.textContent = ''
@@ -108,11 +110,17 @@ const Gameboard = (() => {
         }
     }
 
-    // let aiMode = false
-    let aiMode = true
+    let aiMode = false
+    // let aiMode = true
     const vs = document.getElementById('vs')
     vs.onclick = () => {
-        aiMode = true
+        if (aiMode) {
+            aiMode = false
+            vs.textContent = 'Vs Human'
+        } else {
+            aiMode = true
+            vs.textContent = 'Vs Comp'
+        }
         clearAll()
         if (nowPlay == player2) {
             compPlay().logic()
@@ -148,7 +156,6 @@ const Gameboard = (() => {
             pInfo.style.display = 'none'
         },
         on: function(){
-            pInfo.style.display = 'flex'
             _blur.style.display = 'block'
         }
     }
@@ -157,9 +164,11 @@ const Gameboard = (() => {
     let _draw = () => {
         winner.textContent = `It's a Draw`
         winner.classList.add('win')
+        blurMode.on()
         setTimeout(function(){
             winner.style.transition = '1s'
             winner.style.opacity = '0%'
+            blurMode.off()
         },1500)
         
         setTimeout(function(){
@@ -172,7 +181,10 @@ const Gameboard = (() => {
 
     const editBTN = document.getElementById('edit-name')
     const pInfo = document.getElementById('player-info')
-    editBTN.onclick = () => blurMode.on()
+    editBTN.onclick = () => {
+        blurMode.on()
+        pInfo.style.display = 'flex'
+    }
 
     const submitBTN = document.getElementById('submit')
     submitBTN.onclick = () => {
@@ -222,7 +234,7 @@ const Gameboard = (() => {
         // console.log(player2._playerChoices)
     }
     
-    return {addMark, clearAll}
+    return {addMark, clearAll, blurMode}
 })()
 
 const compPlay = () => {
