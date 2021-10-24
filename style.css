@@ -300,6 +300,7 @@ footer a {
         background-color: var(--background-color);
         box-shadow: var(--box-shadow);
         height: 60%;
+        min-height: 480px;
         width: 300px;
         top: 0;
         left: 0;
@@ -426,6 +427,7 @@ footer a {
     #setting {
         width: 90vw;
         height: 50%;
+        min-height: 265px;
         gap: 20px;
         justify-content: flex-start;
     }

@@ -5,7 +5,7 @@ Check the website: [Live Preview](https://mohamedmaaiz.github.io/tic-tac-toe/)
 ## Build using: 
 - HTML
 - CSS
-- JavaScript
+- JavaScript\
 [Source](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/tic-tac-toe)
 
 ## Features
