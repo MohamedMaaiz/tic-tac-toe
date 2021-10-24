@@ -257,7 +257,6 @@ form div {
     white-space: nowrap; 
 }
 
-
 #winner {
     display: block;
     position: fixed;
@@ -274,11 +273,16 @@ form div {
     transform: scale(5);
 }
 
+.help-text {
+    display: none;
+}
+
 footer {
     position: fixed;
     bottom: 0;
     left: 0;
     margin: 20px;
+    opacity: 0.4;
 }
 
 footer a {
@@ -376,6 +380,40 @@ footer a {
     .player p {
         margin: 5px;
     }
+
+    #winner {
+        top: 49%;
+    }
+
+    .win {
+        transform: scale(3);
+    }
+
+    #player-info {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 230px;
+        width: 60%;
+    }
+
+    #player-info form {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .help-text {
+        display: block;
+        position: fixed;
+        bottom: 3px;
+        margin: 0;
+        opacity: .25;
+    }
 }
 
 @media only screen and (max-width: 400px) {
@@ -412,7 +450,8 @@ footer a {
         text-align: center;
         left: auto;
     }
-}
 
-/* adjest winner, draw text and form for mobile */
-/* start with menue for mobile */
+    #winner {
+        top: 48%;
+    }
+}

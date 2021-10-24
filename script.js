@@ -96,8 +96,6 @@ const Gameboard = (() => {
     let player1 = Players(playerAssign().p1, 'X')
     let player2 = Players(playerAssign().p2, 'O')
 
-    // let bord = ['','','','','','', '','','',]
-
     const _board = document.querySelectorAll('.board')
 
     _board.forEach(box => {
@@ -110,8 +108,9 @@ const Gameboard = (() => {
         }
     }
 
+    const second = document.querySelector('.second')
+
     let aiMode = false
-    // let aiMode = true
     const vs = document.getElementById('vs')
     vs.onclick = () => {
         if (aiMode) {
@@ -166,10 +165,14 @@ const Gameboard = (() => {
 
     const setting = document.getElementById('setting')
     const menu = document.querySelector('.first')
-    menu.onclick = () => {
+    menu.onclick = () => menuView()
+
+    const menuView = () => {
         setting.style.display = 'flex'
         blurMode.on()
     }
+
+    
 
     const blur = document.getElementById('blur')
     blur.onclick = () => blurMode.off()
@@ -187,7 +190,7 @@ const Gameboard = (() => {
 
     let drawCount = 0
     let _draw = () => {
-        winner.textContent = `It's a Draw`
+        winner.textContent = `Draw`
         winner.classList.add('win')
         blurMode.on()
         setTimeout(function(){
@@ -209,6 +212,9 @@ const Gameboard = (() => {
     editBTN.onclick = () => {
         blurMode.on()
         pInfo.style.display = 'flex'
+        if(screen.width < 600) {
+            setting.style.display = 'none'
+        }
     }
 
     const submitBTN = document.getElementById('submit')
@@ -258,6 +264,8 @@ const Gameboard = (() => {
         // console.log(player1._playerChoices)
         // console.log(player2._playerChoices)
     }
+
+    if(screen.width < 600) menuView()
     
     return {addMark, clearAll, blurMode}
 })()
