@@ -58,7 +58,6 @@ const checkWin = () => {
     }
 
     const check = (choice, playerChoices, name) => {
-
         let _filteredList = _winingChoice.filter(choices => choices.includes(choice))
         
         for (let i = 0; i < _filteredList.length; i++) {
@@ -77,26 +76,42 @@ const checkWin = () => {
     return {check}
 }
 
-
 const playerAssign = () =>{
-    let p1 = document.getElementById('p1').value
-    let p2 = document.getElementById('p2').value
-    
     const p1display = document.getElementById('firstP')
     const p2display = document.getElementById('secondP')
+    let p1 = document.getElementById('p1').value
+    let p2 = document.getElementById('p2').value
     p1display.textContent = p1
     p2display.textContent = p2
-
+    
     return{p1, p2, p1display, p2display}
 }
 
-
-
 const Gameboard = (() => {
+    const _board = document.querySelectorAll('.board')
+    const vs = document.getElementById('vs')
+    const Nstart = document.getElementById('new-start')
+    const _Rstart = document.getElementById('re-start')
+    const theme = document.getElementById("theme");
+    const setting = document.getElementById('setting')
+    const menu = document.querySelector('.first')
+    const blur = document.getElementById('blur')
+    const editBTN = document.getElementById('edit-name')
+    const pInfo = document.getElementById('player-info')
+    const submitBTN = document.getElementById('submit')
+    const pDiv = document.querySelectorAll('.player')
+    
     let player1 = Players(playerAssign().p1, 'X')
     let player2 = Players(playerAssign().p2, 'O')
-
-    const _board = document.querySelectorAll('.board')
+    
+    Nstart.onclick = () => _clearScore()
+    _Rstart.onclick = () => clearAll()
+    menu.onclick = () => menuView()
+    blur.onclick = () => blurMode.off()
+    
+    let drawCount = 0
+    let nowPlay = player1
+    let aiMode = false
 
     _board.forEach(box => {
         box.addEventListener('click', () => {addMark(box)});
@@ -108,10 +123,6 @@ const Gameboard = (() => {
         }
     }
 
-    const second = document.querySelector('.second')
-
-    let aiMode = false
-    const vs = document.getElementById('vs')
     vs.onclick = () => {
         if (aiMode) {
             aiMode = false
@@ -126,18 +137,12 @@ const Gameboard = (() => {
             compPlay().logic()
         }
     }
-
-    const Nstart = document.getElementById('new-start')
-    Nstart.onclick = () => _clearScore()
-
+    
     const _clearScore = () => {
         clearAll()
         document.querySelector('[data-win-p1]').textContent = 0
         document.querySelector('[data-win-p2]').textContent = 0
     }
-    
-    const _Rstart = document.getElementById('re-start')
-    _Rstart.onclick = () => clearAll()
     
     const clearAll = () => {
         player1.clear()
@@ -149,7 +154,6 @@ const Gameboard = (() => {
         drawCount = 0
     }
 
-    const theme = document.getElementById("theme");
     let storedTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme)
     theme.onclick = function() {
@@ -163,19 +167,10 @@ const Gameboard = (() => {
         localStorage.setItem('theme', targetTheme);
     };
 
-    const setting = document.getElementById('setting')
-    const menu = document.querySelector('.first')
-    menu.onclick = () => menuView()
-
     const menuView = () => {
         setting.style.display = 'flex'
         blurMode.on()
     }
-
-    
-
-    const blur = document.getElementById('blur')
-    blur.onclick = () => blurMode.off()
 
     const blurMode = {
         off: function(){
@@ -187,8 +182,7 @@ const Gameboard = (() => {
             blur.style.display = 'block'
         }
     }
-
-    let drawCount = 0
+    
     let _draw = () => {
         winner.textContent = `Draw`
         winner.classList.add('win')
@@ -207,8 +201,6 @@ const Gameboard = (() => {
         return Gameboard.clearAll()
     }
 
-    const editBTN = document.getElementById('edit-name')
-    const pInfo = document.getElementById('player-info')
     editBTN.onclick = () => {
         blurMode.on()
         pInfo.style.display = 'flex'
@@ -217,7 +209,6 @@ const Gameboard = (() => {
         }
     }
 
-    const submitBTN = document.getElementById('submit')
     submitBTN.onclick = () => {
         player1 = Players(playerAssign().p1, 'X')
         player2 = Players(playerAssign().p2, 'O')
@@ -225,9 +216,6 @@ const Gameboard = (() => {
         _currentPlayer()
         clearAll()
     }
-
-    const pDiv = document.querySelectorAll('.player')
-    let nowPlay = player1
 
     const _currentPlayer = () => {
         if (nowPlay == player2) {
@@ -247,8 +235,7 @@ const Gameboard = (() => {
     const addMark = (target) => {
         drawCount++
         let boxID = target.getAttribute('data-index')
-        if (_checkBox(target) == false) return 
-        // bord[boxID] = nowPlay.getMark()
+        if (_checkBox(target) == false) return
         target.textContent = nowPlay.getMark()
         target.classList.add('fill')
         const check = nowPlay.pushChoice(boxID)
@@ -257,12 +244,9 @@ const Gameboard = (() => {
                 compPlay().logic()
             },2000)
         }
-        if(check) return false //stop ai when win
+        if(check) return false
         if (drawCount == 9 && check == false) return _draw()
         _currentPlayer()
-
-        // console.log(player1._playerChoices)
-        // console.log(player2._playerChoices)
     }
 
     if(screen.width < 600) menuView()

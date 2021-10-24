@@ -104,7 +104,7 @@ button:active {
     transition: 0s;
 }
 
-button:last-child {
+button:last-of-type{
     width: 35px;
 }
 
@@ -159,13 +159,12 @@ h1 {
     border-bottom: none;
 }
 
-
 .fill {
-    padding-top: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 70px;
+    font-size: 75px;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -332,8 +331,10 @@ footer a {
         font-size: 30px;
     }
 
-    button:last-child {
+    button:last-of-type {
+        height: 50px;
         width: 50px;
+        padding: 0;
     }
 
     button:hover {
@@ -416,7 +417,7 @@ footer a {
     }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) {
 
     #gameboard {
         width: 80%;
