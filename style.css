@@ -8,6 +8,7 @@
     --font-color-winner: #4a40d4;
     --font-color-winline: #c0c2dd;
     --font-shadow-winner: 0px 0px 5px #ffffff;
+    --svg-color: invert(0);
     --box-shadow: 2px 4px 5px 0px #b2b2b299, 0px -1px 7px 2px #f4f4f4;
     --box-shadow-revers: 0px -1px 7px 2px #b2b2b299,2px 4px 5px 0px #f4f4f4;
     --box-shadow-current: 5px 3px 13px 2px #58585899, 0px 0px 2px 0px #f4f4f4;
@@ -24,6 +25,7 @@ html[data-theme='light'] {
     --font-color-winner: #4a40d4;
     --font-color-winline: #c0c2dd;
     --font-shadow-winner: 0px 0px 5px #ffffff;
+    --svg-color: invert(0);
     --box-shadow: 2px 4px 5px 0px #b2b2b299,0px -1px 7px 2px #f4f4f4;
     --box-shadow-revers: 0px -1px 7px 2px #b2b2b299,2px 4px 5px 0px #f4f4f4;
     --box-shadow-current: 5px 3px 13px 2px #58585899, 0px 0px 2px 0px #f4f4f4;
@@ -38,6 +40,7 @@ html[data-theme='dark'] {
     --font-color-winner: #b1adee;
     --font-color-winline: #424453;
     --font-shadow-winner: 0px 0px 5px #000000;
+    --svg-color: invert(1);
     --box-shadow: 2px 4px 5px 0px #141414,0px -1px 7px 2px #373737b0;
     --box-shadow-revers: 0px -1px 7px 2px #141414,2px 4px 5px 0px #373737b0;
     --box-shadow-current: 5px 3px 13px 5px #00000099, 0px 0px 2px 0px #454545;
@@ -105,14 +108,26 @@ button:active {
 }
 
 button:last-of-type{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 35px;
+}
+
+/* .sun {
+    background: url(./Assets/sun.svg) no-repeat center center;
+    filter: invert(1);
+} */
+
+#sun {
+    filter: var(--svg-color);
+    width: 20px;
 }
 
 h1 {
     font-size: 60px;
     padding-left: 20px;
     font-family: var(--font-head);
-
 }
 
 #setting div {
@@ -342,6 +357,10 @@ footer a {
         background-color: var(--background-color);
     }
 
+    #sun {
+        width: 30px;
+    }
+
     footer, a{
         position: relative;
         order: 1;
@@ -445,6 +464,10 @@ footer a {
     button {
         height: 35px;
         width: 130px;
+    }
+
+    #sun {
+        width: 25px;
     }
 
     footer{
