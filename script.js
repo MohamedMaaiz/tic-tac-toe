@@ -176,7 +176,7 @@ const Gameboard = (() => {
         off: function(){
             blur.style.display = 'none'
             pInfo.style.display = 'none'
-            if (screen.width < 600) setting.style.display = 'none'
+            if (screen.width < 800) setting.style.display = 'none'
         },
         on: function(){
             blur.style.display = 'block'
@@ -204,7 +204,7 @@ const Gameboard = (() => {
     editBTN.onclick = () => {
         blurMode.on()
         pInfo.style.display = 'flex'
-        if(screen.width < 600) {
+        if(screen.width < 800) {
             setting.style.display = 'none'
         }
     }
@@ -249,7 +249,7 @@ const Gameboard = (() => {
         _currentPlayer()
     }
 
-    if(screen.width < 600) menuView()
+    if(screen.width < 800) menuView()
     
     return {addMark, clearAll, blurMode}
 })()
