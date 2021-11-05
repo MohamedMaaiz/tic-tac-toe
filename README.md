@@ -12,6 +12,6 @@ Check the website: [Live Preview](https://mohamedmaaiz.github.io/tic-tac-toe/)
 - Multiplayer support
 - Single player with easy computer 
 - Build in dark and light theme
-- Selected theme will be saved inside the browsers lockal data
+- Selected theme will be saved inside the browsers local data
 - Scores counter which can be reseted
 - Desktop and mobile UI for old and new phones
